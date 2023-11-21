@@ -53,7 +53,7 @@ To execute these SQL commands, you can connect to your MariaDB instances using a
 * Make sure that slave has the same data as the master
 * Command for creating new user (granting SELECT, INSERT, UPDATE, DELETE commands). Just replace `database_user`, `database`, `database_password`.
     ```sql
-    CREATE USER 'database_user'@'%' IDENTIFIED BY 'cafe24@001';
+    CREATE USER 'database_user'@'%' IDENTIFIED BY 'database_password';
     GRANT SELECT, INSERT, UPDATE, DELETE ON database.* to 'database_user'@'%' IDENTIFIED BY 'database_password';
     FLUSH PRIVILEGES;
     ```

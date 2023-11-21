@@ -1,4 +1,4 @@
-## IMPORTANT! Setup of Master-Slave Replication (after booting both server)
+## IMPORTANT! Setup of MariaDB Master-Slave Replication (after booting both server)
 ### This configures the slave server with information about the master server, so it knows where to begin replicating data. Also, this specifies the master's binary log file and log position from which the slave should start replicating.
 ---
 ##### Note:

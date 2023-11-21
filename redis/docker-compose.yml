@@ -1,0 +1,27 @@
+services:
+  redis-master:
+    container_name: redis-master
+    image: ${CONTAINER_IMAGE}
+    command: redis-server --appendonly yes --requirepass ${MASTER_PASSWORD}
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    ports:
+      - ${MASTER_PORT}:6379
+    networks:
+      - backend
+  
+  # redis-slave:
+  #   container_name: redis-slave
+  #   image: ${CONTAINER_IMAGE}
+  #   command: redis-server --appendonly yes --requirepass ${SLAVE_PASSWORD}
+  #   environment:
+  #     - REDIS_REPLICATION_MODE=slave
+  #     - REDIS_MASTER_HOST=redis-master
+  #   ports:
+  #     - ${SLAVE_PORT}:6379
+  #   networks:
+  #     - backend
+
+networks:
+  backend:
+    external: true

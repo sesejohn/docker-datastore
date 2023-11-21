@@ -1,0 +1,43 @@
+services:
+  mariadb-master:
+    container_name: mariadb-master
+    image: ${CONTAINER_IMAGE}
+    environment:
+      TZ: ${CONTAINER_TIMEZONE}
+      MYSQL_ROOT_PASSWORD: ${MASTER_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MASTER_DATABASE}
+      MYSQL_USER: ${MASTER_USER}
+      MYSQL_PASSWORD: ${MASTER_PASSWORD}
+    cap_add:
+      - SYS_TIME
+    ports:
+      - ${MASTER_PORT}:3306
+    volumes:
+      - ./docker/db_dump:/docker-entrypoint-initdb.d
+    command: --server-id=1 --log-bin --binlog-format=ROW
+    networks:
+      - backend
+
+  mariadb-slave:
+    container_name: mariadb-slave
+    image: ${CONTAINER_IMAGE}
+    environment:
+      TZ: ${CONTAINER_TIMEZONE}
+      MYSQL_ROOT_PASSWORD: ${SLAVE_ROOT_PASSWORD}
+      MYSQL_MASTER_HOST: mariadb-master
+      MYSQL_MASTER_USER: ${MASTER_USER}
+      MYSQL_MASTER_PASSWORD: ${MASTER_PASSWORD}
+      MYSQL_DATABASE: ${MASTER_DATABASE}
+    cap_add:
+      - SYS_TIME
+    ports:
+      - ${SLAVE_PORT}:3306
+    command: --server-id=2 --replicate-do-db=${MASTER_DATABASE}
+    depends_on:
+      - mariadb-master
+    networks:
+      - backend
+
+networks:
+  backend:
+    external: true

@@ -27,12 +27,11 @@ services:
       MYSQL_MASTER_HOST: mariadb-master
       MYSQL_MASTER_USER: ${MASTER_USER}
       MYSQL_MASTER_PASSWORD: ${MASTER_PASSWORD}
-      MYSQL_DATABASE: ${MASTER_DATABASE}
     cap_add:
       - SYS_TIME
     ports:
       - ${SLAVE_PORT}:3306
-    command: --server-id=2 --replicate-do-db=${MASTER_DATABASE}
+    command: --server-id=2
     depends_on:
       - mariadb-master
     networks:

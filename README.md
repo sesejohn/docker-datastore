@@ -27,16 +27,16 @@ To execute these SQL commands, you can connect to your MariaDB instances using a
     ```
 
 4. **In `slave` container: Set Up the Slave**
-- You will use the `CHANGE MASTER TO` command with the information you just gathered. Replace `master_log_file` and `master_log_pos` with the values you got from the master. Also, replace `master_user` and `master_password` with the credentials of the replication user:
+- You will use the `CHANGE MASTER TO` command with the information you just gathered. Replace `##MASTER_LOG_FILE##` and `##MASTER_LOG_POS##` with the values you got from the master. Also, replace `##MASTER_ROOT_PASSWORD##` with the credentials of the master root user:
     ```sql
     CHANGE MASTER TO
     MASTER_HOST='mariadb-master',
-    MASTER_USER='replication_user',
-    MASTER_PASSWORD='replication_password',
-    MASTER_LOG_FILE='master_log_file',
-    MASTER_LOG_POS=master_log_pos;
+    MASTER_USER='root',
+    MASTER_PASSWORD='##MASTER_ROOT_PASSWORD##',
+    MASTER_LOG_FILE='##MASTER_LOG_FILE##',
+    MASTER_LOG_POS=##MASTER_LOG_POS##;
     ```
-    Note: Only the `master_log_pos` value does not have single quotes, since it holds integer value.
+    Note: Only the `##MASTER_LOG_POS##` value does not have single quotes, since it holds integer value.
 
 5. **In `slave` container: Start the Slave**
 - Finally, start the slave process:
